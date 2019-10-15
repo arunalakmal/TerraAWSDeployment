@@ -188,3 +188,29 @@ resource "aws_db_subnet_group" "wp_rds_subnetgroup" {
     Name = "wp_rds_sng"
   }
 }
+
+#Subnet Associations 
+
+resource "aws_route_table_association" "wp_public1_assoc" {
+  subnet_id = "${aws_subnet.wp_public1_subnet.id}"
+  route_table_id = "${aws_route_table.wp_public_rt.id}"
+}
+
+resource "aws_route_table_association" "wp_public2_assoc" {
+  subnet_id = "${aws_subnet.wp_public2_subnet.id}"
+  route_table_id = "${aws_route_table.wp_public_rt.id}"
+}
+
+resource "aws_route_table_association" "wp_private1_assoc" {
+  subnet_id = "${aws_subnet.wp_private1_subnet.id}"
+  route_table_id = "${aws_default_route_table.wp_private_rt.id}"
+}
+
+resource "aws_route_table_association" "wp_private2_assoc" {
+  subnet_id = "${aws_subnet.wp_private2_subnet.id}"
+  route_table_id = "${aws_default_route_table.wp_private_rt.id}"
+}
+
+
+
+
