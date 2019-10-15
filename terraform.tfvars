@@ -11,4 +11,4 @@ cidrs = {
   rds3     = "10.0.7.0/24"
 }
 localip = "18.236.126.225/32"
-domain_name = "domainname"
+domain_name = "cmcloudlab1543.info"
