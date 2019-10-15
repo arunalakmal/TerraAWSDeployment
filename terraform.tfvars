@@ -10,4 +10,4 @@ cidrs = {
   rds2     = "10.0.6.0/24"
   rds3     = "10.0.7.0/24"
 }
-localip = "54.184.27.137/32"
+localip = "specify_local_ip/32"
