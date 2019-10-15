@@ -7,3 +7,4 @@ variable "cidrs" {
   type = "map"
 }
 variable "localip" {}
+variable "domain_name" {}
