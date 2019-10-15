@@ -63,7 +63,6 @@ resource "aws_vpc" "wp_vpc" {
 
 #internet gateway
 
-
 resource "aws_internet_gateway" "wp_internet_gateway" {
   vpc_id = "${aws_vpc.wp_vpc.id}"
 
@@ -71,7 +70,6 @@ resource "aws_internet_gateway" "wp_internet_gateway" {
     Name = "wp_igw"
   }
 }
-
 
 # Route Tables 
 
@@ -87,7 +85,6 @@ resource "aws_route_table" "wp_public_rt" {
     Name = "wp_public"
   }
 }
-
 
 resource "aws_default_route_table" "wp_private_rt" {
   default_route_table_id = "${aws_vpc.wp_vpc.default_route_table_id}"
@@ -183,7 +180,9 @@ resource "aws_db_subnet_group" "wp_rds_subnetgroup" {
 
   subnet_ids = ["${aws_subnet.wp_rds1_subnet.id}",
     "${aws_subnet.wp_rds2_subnet.id}",
-  "${aws_subnet.wp_rds3_subnet.id}"]
+    "${aws_subnet.wp_rds3_subnet.id}",
+  ]
+
   tags = {
     Name = "wp_rds_sng"
   }
@@ -258,6 +257,7 @@ resource "aws_security_group" "wp_public_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -280,6 +280,7 @@ resource "aws_security_group" "wp_private_sg" {
     protocol    = "-1"
     cidr_blocks = ["${var.vpc_cidr}"]
   }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -287,6 +288,7 @@ resource "aws_security_group" "wp_private_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 #RDS Security Group
 
 resource "aws_security_group" "wp_rds_sg" {
@@ -302,18 +304,20 @@ resource "aws_security_group" "wp_rds_sg" {
 
     security_groups = ["${aws_security_group.wp_dev_sg.id}",
       "${aws_security_group.wp_public_sg.id}",
-    "${aws_security_group.wp_private_sg.id}"]
+      "${aws_security_group.wp_private_sg.id}",
+    ]
   }
 }
 
 #----- VPC Endpoint for S3 ------
 
 resource "aws_vpc_endpoind" "wp_private-s3_endpoint" {
-  vpc_id = "${aws_vpc.wp_vpc.id}"
+  vpc_id       = "${aws_vpc.wp_vpc.id}"
   service_name = "com.amazonaws.${var.aws_region}.s3"
 
   route_table_ids = ["${aws_vpc.wp_vpc.main_route_table_id}",
-                      "${aws_route_table.wp_public_rt.id}"]
+    "${aws_route_table.wp_public_rt.id}",
+  ]
 
   policy = <<POLICY
     "Statement": [
@@ -331,19 +335,15 @@ POLICY
 #----- S# Code Bucket ------
 
 resource "random_id" "wp_code_bucket" {
-  byte_length = 2  
+  byte_length = 2
 }
 
 resource "aws_s3_bucket" "code" {
-  bucket = "${var.domain_name}-${random_id.wp_code_bucket.dec}"
-  acl = "private"
+  bucket        = "${var.domain_name}-${random_id.wp_code_bucket.dec}"
+  acl           = "private"
   force_destroy = true
 
   tags = {
     Name = "code bucket"
   }
 }
-
-
-
-
