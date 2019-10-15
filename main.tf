@@ -311,7 +311,7 @@ resource "aws_security_group" "wp_rds_sg" {
 
 #----- VPC Endpoint for S3 ------
 
-resource "aws_vpc_endpoind" "wp_private-s3_endpoint" {
+resource "aws_vpc_endpoint" "wp_private-s3_endpoint" {
   vpc_id       = "${aws_vpc.wp_vpc.id}"
   service_name = "com.amazonaws.${var.aws_region}.s3"
 
@@ -320,6 +320,7 @@ resource "aws_vpc_endpoind" "wp_private-s3_endpoint" {
   ]
 
   policy = <<POLICY
+  {
     "Statement": [
       {
         "Action": "*",
