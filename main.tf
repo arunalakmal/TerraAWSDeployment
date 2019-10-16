@@ -424,7 +424,7 @@ resource "aws_elb" "wp_elb" {
     unhealthy_threshold = "${var.elb_unhealthy_threshold}"
     timeout = "${var.elb_timeout}"
     target = "TCP:80"
-    internal = "${var.elb_interval}"
+    interval = "${var.elb_interval}"
   }
 
   cross_zone_load_balancing = true
