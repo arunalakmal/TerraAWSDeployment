@@ -11,7 +11,7 @@ cidrs = {
   rds3     = "10.0.7.0/24"
 }
 localip                 = "0.0.0.0/0"
-domain_name             = "cmcloudlab666"
+domain_name             = "cmcloudlab407"
 db_instance_class       = "db.t2.micro"
 dbname                  = "superherodb"
 dbuser                  = "superhero"
