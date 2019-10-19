@@ -390,13 +390,13 @@ resource "aws_instance" "wp_dev" {
   provisioner "local-exec" {
     command = <<EOD
     cat <<EOF > aws_hosts
-    [dev]
-    ${aws_instance.wp_dev.public_ip}
-    [dev:vars]
-    s3code=${aws_s3_bucket.code.bucket}
-    domain=${var.domain_name}
-    EOF
-    EOD
+[dev]
+${aws_instance.wp_dev.public_ip}
+[dev:vars]
+s3code=${aws_s3_bucket.code.bucket}
+domain=${var.domain_name}
+EOF
+EOD
   }
 
   provisioner "local-exec" {
@@ -454,13 +454,13 @@ resource "aws_ami_from_instance" "wp_golden" {
 
   provisioner "local-exec" {
     command = <<EOT
-    cat <<EOF > userdata
-    #!/bin/bash
-    /usr/bin/aws s3 sync s3://${aws_s3_bucket.code.bucket} /var/www/html/
-    /bin/touch /var/spool/cron/root
-    sudo /bin/echo '*/5 * * * * aws s3 sync s3://${aws_s3_bucket.code.bucket} /var/www/html' >> /var/spool/cron/root
-    EOF
-    EOT
+cat <<EOF > userdata
+#!/bin/bash
+/usr/bin/aws s3 sync s3://${aws_s3_bucket.code.bucket} /var/www/html/
+/bin/touch /var/spool/cron/root
+sudo /bin/echo '*/5 * * * * aws s3 sync s3://${aws_s3_bucket.code.bucket} /var/www/html' >> /var/spool/cron/root
+EOF
+EOT
   }
 }
 
