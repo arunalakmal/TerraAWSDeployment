@@ -10,7 +10,7 @@ cidrs = {
   rds2     = "10.0.6.0/24"
   rds3     = "10.0.7.0/24"
 }
-localip                 = "34.220.51.177/32"
+localip                 = "0.0.0.0/0"
 domain_name             = "cmcloudlab666"
 db_instance_class       = "db.t2.micro"
 dbname                  = "superherodb"
